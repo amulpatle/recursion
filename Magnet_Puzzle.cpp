@@ -3,10 +3,10 @@
 using namespace std;
 #define n 6
 #define m 5
-int countinrow(char ans[][], int sign, int rowno)
+int countinrow(char ans[n][n], int arr[n], int sign, int rowno)
 {
     int counter = 0;
-    for (int col = 0; col < ans[0].length; col++)
+    for (int col = 0; col < m; col++)
     {
         if (ans[rowno][col] == sign)
         {
@@ -15,10 +15,10 @@ int countinrow(char ans[][], int sign, int rowno)
         return counter;
     }
 }
-int countincol(char ans[][], int sign, int colno)
+int countincol(char ans[n][n], int arr[n], int sign, int colno)
 {
     int counter = 0;
-    for (int row = 0; row < ans[0].length; row++)
+    for (int row = 0; row < n; row++)
     {
         if (ans[row][colno] == sign)
         {
@@ -34,12 +34,12 @@ bool isItsafe(char ans[n][n], int top[], int left[], int right[], int bottom[], 
     {
         return false;
     }
-    if (sing == '+')
+    if (sign == '+')
     {
         int cinr = countinrow(ans, left, sign, row);
-        int cinc = countincol(ans, top, sing, col);
+        int cinc = countincol(ans, top, sign, col);
 
-        if (left[row] ! = -1 && cinr > left[row])
+        if (left[row] != -1 && cinr > left[row])
         {
             return false;
         }
@@ -51,7 +51,7 @@ bool isItsafe(char ans[n][n], int top[], int left[], int right[], int bottom[], 
     else
     {
         int cinr = countinrow(ans, right, sign, row);
-        int cinc = countincol(ans, bottom, sing, col);
+        int cinc = countincol(ans, bottom, sign, col);
 
         if (left[row] != -1 && cinr > right[row])
         {
@@ -64,9 +64,9 @@ bool isItsafe(char ans[n][n], int top[], int left[], int right[], int bottom[], 
     }
     return true;
 }
-bool isansvalid(char ans[][], int top[], int left[], int right[], int bottom[])
+bool isansvalid(char ans[n][n], int top[], int left[], int right[], int bottom[])
 {
-    for (int i = 0; i < top.lenght; i++)
+    for (int i = 0; i < n; i++)
     {
         int cinc = countincol(ans, top, '+', i);
         if (top[i] != -1 && top[i] != cinc)
@@ -74,25 +74,27 @@ bool isansvalid(char ans[][], int top[], int left[], int right[], int bottom[])
             return false;
         }
     }
-    for (int i = 0; i < top.lenght; i++)
+
+    for (int i = 0; i < n; i++)
     {
-        int cinc = countinrow(ans, top, '+', i);
+        int cinr = countinrow(ans, left, '+', i);
         if (left[i] != -1 && top[i] != cinr)
         {
             return false;
         }
     }
-    for (int i = 0; i < bottom.lenght; i++)
+
+    for (int i = 0; i < n; i++)
     {
-        int cinc = countincol(ans, bottom, '-', i);
+        int cinc = countinrow(ans, bottom, '-', i);
         if (bottom[i] != -1 && bottom[i] != cinc)
         {
             return false;
         }
     }
-    for (int i = 0; i < right.lenght; i++)
+    for (int i = 0; i < n; i++)
     {
-        int cinc = countinrow(ans, right, '-', i);
+        int cinr = countinrow(ans, right, '-', i);
         if (right[i] != -1 && right[i] != cinr)
         {
             return false;
@@ -102,16 +104,17 @@ bool isansvalid(char ans[][], int top[], int left[], int right[], int bottom[])
 }
 bool solution(char arr[n][n], int top[], int left[], int right[], int bottom[], char ans[n][m], int row, int col)
 {
-    if (col == arr.leght())
+    if (col == n)
     {
         col = 0;
         row++;
     }
 
-    if (row == arr.length())
+    if (row == m)
     {
-        if (isansvalid(ans, top, left, bottom, ans) == true))
+        if (isansvalid(ans, top, left, right, bottom) == true))
             {
+
                 return true;
             }
         return false;
